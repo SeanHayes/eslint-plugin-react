@@ -23,7 +23,6 @@ ruleTester.run('no-deprecated', rule, {
 
   valid: [
     // Not deprecated
-    'var MyClass = React.createClass({});',
     'var element = React.createElement(\'p\', {}, null);',
     'var clone = React.cloneElement(element);',
     'ReactDOM.render(element, container);',
@@ -94,6 +93,47 @@ ruleTester.run('no-deprecated', rule, {
         'use ReactDOMServer.renderToStaticMarkup instead'
       )
     }]
+  }, {
+    code: 'const {createClass} = require(\'react\');',
+    parser: 'babel-eslint',
+    errors: [{
+      message: 'React.createClass is deprecated since React 15.5.0, use the npm module create-react-class instead'
+    }]
+  }, {
+    code: 'const {PropTypes} = require(\'react\');',
+    parser: 'babel-eslint',
+    errors: [{
+      message: 'React.PropTypes is deprecated since React 15.5.0, use the npm module prop-types instead'
+    }]
+  }, {
+    code: 'import {createClass} from \'react\';',
+    parser: 'babel-eslint',
+    errors: [{
+      message: 'React.createClass is deprecated since React 15.5.0, use the npm module create-react-class instead'
+    }]
+  }, {
+    code: 'import {PropTypes} from \'react\';',
+    parser: 'babel-eslint',
+    errors: [{
+      message: 'React.PropTypes is deprecated since React 15.5.0, use the npm module prop-types instead'
+    }]
+  }, {
+    code: [
+      'import React from \'react\';',
+      'const {PropTypes} = React;'
+    ].join('\n'),
+    parser: 'babel-eslint',
+    errors: [{
+      message: 'React.PropTypes is deprecated since React 15.5.0, use the npm module prop-types instead'
+    }]
+  }, {
+    code: [
+      'import React from \'react\';',
+      'const {createClass} = React;'
+    ].join('\n'),
+    parser: 'babel-eslint',
+    errors: [{
+      message: 'React.createClass is deprecated since React 15.5.0, use the npm module create-react-class instead'
+    }]
   }]
-
 });
